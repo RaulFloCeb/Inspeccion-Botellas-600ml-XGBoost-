@@ -1,0 +1,26 @@
+Umbral del modelo: 0.999092
+
+CASOS DE PRUEBA
+caso                          ml  etq  p_rechazo   esperado  modelo solo  modelo 0.5        API
+TC-01 conforme            598.35    1   0.000212   ACEPTADO     ACEPTADO    ACEPTADO   ACEPTADO
+TC-02 bajo llenado         580.0    1   0.986382  RECHAZADO     ACEPTADO   RECHAZADO  RECHAZADO
+TC-03 alto llenado         618.5    1   0.990714  RECHAZADO     ACEPTADO   RECHAZADO  RECHAZADO
+TC-04 sin etiqueta         600.0    0   0.999092  RECHAZADO    RECHAZADO   RECHAZADO  RECHAZADO
+TC-05 defecto doble        575.0    0   0.999472  RECHAZADO    RECHAZADO   RECHAZADO  RECHAZADO
+Limite 588.0               588.0    1   0.986382   ACEPTADO     ACEPTADO   RECHAZADO   ACEPTADO
+Limite 612.0               612.0    1   0.990714   ACEPTADO     ACEPTADO   RECHAZADO   ACEPTADO
+Outlier 999.0              999.0    1   0.990714  RECHAZADO     ACEPTADO   RECHAZADO  RECHAZADO
+
+BARRIDO 570-630 ml, paso 0.01 ml, con etiqueta (espacio que el dataset no cubre)
+decision                  defectos aceptados  conformes rechazadas
+Modelo umbral optimo                    3600                     0
+Modelo umbral 0.5                          0                   761
+API (regla + modelo)                       0                     0
+Puntos evaluados: 6001 (3600 fuera de especificacion)
+Cortes del modelo con umbral 0.5: [591.5, 607.9] ml (especificacion: 588 y 612 ml)
+
+DATASET COMPLETO (5,000 registros, incluye entrenamiento)
+decision                    FN    FP    TP     TN
+Modelo umbral optimo         5     0     5   4990
+Modelo umbral 0.5            0    36    10   4954
+API (regla + modelo)         0     0    10   4990

@@ -1,0 +1,43 @@
+{
+  "model_version": "1.0.0",
+  "features": [
+    "fill_level_ml",
+    "label_present_num"
+  ],
+  "threshold": 0.9990915060043335,
+  "scale_pos_weight": 499.0,
+  "train_rows": 4000,
+  "test_rows": 1000,
+  "train_rejects": 8,
+  "test_rejects": 2,
+  "roc_auc_test": 1.0,
+  "cv_roc_auc_mean": 0.9977,
+  "cv_roc_auc_std": 0.0026,
+  "metrics_threshold_0_5": {
+    "threshold": 0.5,
+    "accuracy": 0.992,
+    "precision": 0.2,
+    "recall": 1.0,
+    "f1": 0.3333,
+    "tn": 990,
+    "fp": 8,
+    "fn": 0,
+    "tp": 2
+  },
+  "metrics_threshold_optimo": {
+    "threshold": 0.9991,
+    "accuracy": 1.0,
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0,
+    "tn": 998,
+    "fp": 0,
+    "fn": 0,
+    "tp": 2
+  },
+  "versions": {
+    "xgboost": "2.0.3",
+    "scikit_learn": "1.4.2",
+    "numpy": "1.26.4"
+  }
+}

@@ -1,0 +1,114 @@
+## docker images
+REPOSITORY            TAG       IMAGE ID       SIZE
+inspeccion-botellas   v1.0      7cb994e0fb73   579MB
+
+## docker ps
+NAMES     IMAGE                      STATUS                    PORTS
+app       inspeccion-botellas:v1.0   Up 14 seconds (healthy)   0.0.0.0:8000->8000/tcp, [::]:8000->8000/tcp
+
+## usuario del proceso
+uid=1000(appuser) gid=1000(appuser) groups=1000(appuser)
+
+## smoke test
+$ GET /health 
+{"status":"healthy","model_loaded":true}
+HTTP 200
+
+$ POST /predict {"fill_level_ml": 598.35, "label_present_num": 1}
+{"status":"ACEPTADO","target":0,"probability_reject":0.000212,"threshold":0.9990915060043335,"rule_rejected":false,"model_rejected":false,"rejection_reasons":[],"model_version":"1.0.0","inference_ms":5.084}
+HTTP 200
+
+$ POST /predict {"fill_level_ml": 580.00, "label_present_num": 1}
+{"status":"RECHAZADO","target":1,"probability_reject":0.986382,"threshold":0.9990915060043335,"rule_rejected":true,"model_rejected":false,"rejection_reasons":["BAJO_LLENADO"],"model_version":"1.0.0","inference_ms":1.301}
+HTTP 200
+
+$ POST /predict {"fill_level_ml": 618.50, "label_present_num": 1}
+{"status":"RECHAZADO","target":1,"probability_reject":0.990714,"threshold":0.9990915060043335,"rule_rejected":true,"model_rejected":false,"rejection_reasons":["ALTO_LLENADO"],"model_version":"1.0.0","inference_ms":0.429}
+HTTP 200
+
+$ POST /predict {"fill_level_ml": 600.00, "label_present_num": 0}
+{"status":"RECHAZADO","target":1,"probability_reject":0.999092,"threshold":0.9990915060043335,"rule_rejected":true,"model_rejected":true,"rejection_reasons":["SIN_ETIQUETA"],"model_version":"1.0.0","inference_ms":0.437}
+HTTP 200
+
+$ POST /predict {"fill_level_ml": 575.00, "label_present_num": 0}
+{"status":"RECHAZADO","target":1,"probability_reject":0.999472,"threshold":0.9990915060043335,"rule_rejected":true,"model_rejected":true,"rejection_reasons":["BAJO_LLENADO","SIN_ETIQUETA"],"model_version":"1.0.0","inference_ms":0.427}
+HTTP 200
+
+$ POST /predict {"fill_level_ml": 588.00, "label_present_num": 1}
+{"status":"ACEPTADO","target":0,"probability_reject":0.986382,"threshold":0.9990915060043335,"rule_rejected":false,"model_rejected":false,"rejection_reasons":[],"model_version":"1.0.0","inference_ms":0.578}
+HTTP 200
+
+$ POST /predict {"fill_level_ml": 999.00, "label_present_num": 1}
+{"status":"RECHAZADO","target":1,"probability_reject":0.990714,"threshold":0.9990915060043335,"rule_rejected":true,"model_rejected":false,"rejection_reasons":["ALTO_LLENADO"],"model_version":"1.0.0","inference_ms":0.442}
+HTTP 200
+
+$ POST /predict {"label_present_num": 1}
+{"detail":[{"loc":["body","fill_level_ml"],"msg":"Field required","type":"missing"}]}
+HTTP 422
+
+$ POST /predict {"fill_level_ml": NaN, "label_present_num": 1}
+{"detail":[{"loc":["body","fill_level_ml"],"msg":"Input should be a finite number","type":"finite_number"}]}
+HTTP 422
+
+## estres 100 concurrentes (repeticion 1)
+Solicitudes: 100  Concurrencia: 100  OK: 100  Errores: 0
+Latencia ms  media: 339.2  mediana: 346.2  p99: 391.8  max: 391.8
+Tiempo total: 0.40 s  Rendimiento: 250 sol/s
+
+## estres 100 concurrentes (repeticion 2)
+Solicitudes: 100  Concurrencia: 100  OK: 100  Errores: 0
+Latencia ms  media: 213.5  mediana: 198.0  p99: 326.0  max: 326.0
+Tiempo total: 0.33 s  Rendimiento: 303 sol/s
+
+## estres 100 concurrentes (repeticion 3)
+Solicitudes: 100  Concurrencia: 100  OK: 100  Errores: 0
+Latencia ms  media: 334.3  mediana: 380.4  p99: 435.1  max: 435.1
+Tiempo total: 0.44 s  Rendimiento: 226 sol/s
+
+## secuencial 500 solicitudes
+Solicitudes: 500  Concurrencia: 1  OK: 500  Errores: 0
+Latencia ms  media: 5.9  mediana: 3.2  p99: 80.9  max: 240.2
+Tiempo total: 2.98 s  Rendimiento: 168 sol/s
+
+## recursos
+CPU 0.45%  MEM 85.99MiB / 7.654GiB
+## secuencial 1000 solicitudes (repeticion 1)
+Solicitudes: 1000  Concurrencia: 1  OK: 1000  Errores: 0
+Latencia ms  media: 2.6  mediana: 2.3  p99: 6.7  max: 49.9
+Tiempo total: 2.66 s  Rendimiento: 376 sol/s
+
+## secuencial 1000 solicitudes (repeticion 2)
+Solicitudes: 1000  Concurrencia: 1  OK: 1000  Errores: 0
+Latencia ms  media: 2.7  mediana: 2.4  p99: 8.0  max: 21.3
+Tiempo total: 2.77 s  Rendimiento: 361 sol/s
+
+## secuencial 1000 solicitudes (repeticion 3)
+Solicitudes: 1000  Concurrencia: 1  OK: 1000  Errores: 0
+Latencia ms  media: 2.6  mediana: 2.3  p99: 8.6  max: 35.9
+Tiempo total: 2.71 s  Rendimiento: 369 sol/s
+
+## secuencial 1000 solicitudes (repeticion 4)
+Solicitudes: 1000  Concurrencia: 1  OK: 1000  Errores: 0
+Latencia ms  media: 2.5  mediana: 2.2  p99: 6.7  max: 40.1
+Tiempo total: 2.62 s  Rendimiento: 382 sol/s
+
+## secuencial 1000 solicitudes (repeticion 5)
+Solicitudes: 1000  Concurrencia: 1  OK: 1000  Errores: 0
+Latencia ms  media: 2.5  mediana: 2.3  p99: 5.7  max: 42.1
+Tiempo total: 2.54 s  Rendimiento: 394 sol/s
+
+## rafaga 10 concurrentes, 200 solicitudes (repeticion 1)
+Solicitudes: 200  Concurrencia: 10  OK: 200  Errores: 0
+Latencia ms  media: 17.7  mediana: 15.0  p99: 59.0  max: 64.1
+Tiempo total: 0.36 s  Rendimiento: 558 sol/s
+
+## rafaga 10 concurrentes, 200 solicitudes (repeticion 2)
+Solicitudes: 200  Concurrencia: 10  OK: 200  Errores: 0
+Latencia ms  media: 20.3  mediana: 16.8  p99: 88.8  max: 89.6
+Tiempo total: 0.41 s  Rendimiento: 486 sol/s
+
+## rafaga 10 concurrentes, 200 solicitudes (repeticion 3)
+Solicitudes: 200  Concurrencia: 10  OK: 200  Errores: 0
+Latencia ms  media: 17.8  mediana: 14.8  p99: 55.3  max: 57.5
+Tiempo total: 0.36 s  Rendimiento: 553 sol/s
+
