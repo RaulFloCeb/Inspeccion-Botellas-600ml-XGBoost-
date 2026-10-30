@@ -10,8 +10,8 @@ Fecha: 30 de octubre de 2026. Imagen `inspeccion-botellas:v1.0`, ejecutada en Do
 | Contenedor | Construido, en ejecución y `healthy`, con usuario sin privilegios | [ejecucion_local.txt](docs/evidencia/ejecucion_local.txt) |
 | Integración frontend y API | Correcta | [frontend_panel.jpg](docs/evidencia/frontend_panel.jpg) |
 | Endpoints documentados | `/health` y `/predict` | [swagger_endpoints.jpg](docs/evidencia/swagger_endpoints.jpg), [openapi.json](docs/openapi.json) |
-| Imagen `linux/amd64` | Construida y probada con emulación | Sección 6 del informe completo |
-| Integración continua | Workflow con PyTest, construcción de imagen y prueba de humo | [ci.yml](.github/workflows/ci.yml) |
+| Imagen `linux/amd64` | Construida y probada con emulación y en GitHub Actions | Sección 6 del informe completo |
+| Integración continua | Ejecución exitosa: 34 pruebas, 10 verificaciones de humo e imagen como artefacto | [ci.yml](.github/workflows/ci.yml), [ejecuciones](https://github.com/inetshell/inspeccion-botellas-xgboost/actions) |
 
 ## Matriz funcional
 
